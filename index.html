@@ -94,6 +94,27 @@
 
         h1 { font-size: 1.6em; }
         p { font-size: 1.05em; }
+        /* show a compact button and hide card initially on very small screens */
+        #showMessageBtn {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 8vh;
+            z-index: 5;
+            background: rgba(255,255,255,0.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px 16px;
+            border-radius: 999px;
+            backdrop-filter: blur(6px);
+            font-weight: 600;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+        }
+
+        /* Hide card by default on phones to show photos */
+        #messageCardWrapper { display: block; }
+        #messageCard { transform: translateY(10px) scale(0.96); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+        #messageCard.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
     }
 
     /* subtle vignette to keep center readable */
@@ -177,6 +198,7 @@
     @media (hover: hover) and (min-width: 800px) {
         .bg-img.left:hover { transform: rotate(-3deg) translateY(-6px) scale(1.08); }
         .bg-img.right:hover { transform: rotate(3deg) translateY(6px) scale(1.08); }
+    }
 
     /* Larger desktops: keep card modest so background shines */
     @media (min-width: 1200px) {
@@ -189,7 +211,7 @@
         .container { max-width: 460px; width: 88vw; padding: 20px; }
         h1 { font-size: 1.95em; }
     }
-    }
+    
 </style>
 </head>
 
@@ -207,7 +229,11 @@
     <img src="images/523134D7-9357-4EF9-BD02-E18E1ECA077E.JPG" alt="" class="bg-img" loading="lazy">
 </div>
 
-<div class="container">
+<!-- On small screens, show a compact button to reveal the message so photos stay visible -->
+<button id="showMessageBtn" aria-expanded="false" aria-controls="messageCard">Open message</button>
+
+<div id="messageCardWrapper">
+    <div class="container" id="messageCard">
     <h1>Happy Valentine's Day ❤️</h1>
 
     <p>
