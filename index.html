@@ -113,8 +113,13 @@
 
         /* Hide card by default on phones to show photos */
         #messageCardWrapper { display: block; }
-        #messageCard { transform: translateY(10px) scale(0.96); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+        #messageCard { transform: translateY(10px) scale(0.96); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease, background .2s ease; }
         #messageCard.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+        /* when opened, make card much less transparent for readability */
+        #messageCard.open.active {
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(8px);
+        }
     }
 
     /* subtle vignette to keep center readable */
@@ -142,6 +147,9 @@
         box-shadow: 0 6px 18px rgba(0,0,0,0.28);
         margin: 0 18px; /* breathing room on very small screens */
     }
+
+    /* hide mobile-only button on larger screens */
+    #showMessageBtn { display: none; }
 
     h1 {
         font-size: 1.9em;
@@ -249,6 +257,45 @@
 </div>
 
 <script>
+// Mobile message toggle: show/hide the message card and increase opacity when active
+(function(){
+    const btn = document.getElementById('showMessageBtn');
+    const card = document.getElementById('messageCard');
+    if (!btn || !card) return;
+
+    function setOpen(open){
+        if(open){
+            card.classList.add('open');
+            // add an active class after the open transition to give stronger opacity
+            setTimeout(()=> card.classList.add('active'), 200);
+            btn.setAttribute('aria-expanded','true');
+            btn.textContent = 'Close message';
+            // move focus to the card for accessibility
+            card.setAttribute('tabindex','-1');
+            card.focus({preventScroll:true});
+        } else {
+            card.classList.remove('active');
+            // wait for transition then remove open
+            setTimeout(()=> card.classList.remove('open'), 220);
+            btn.setAttribute('aria-expanded','false');
+            btn.textContent = 'Open message';
+            btn.focus({preventScroll:true});
+        }
+    }
+
+    btn.addEventListener('click', ()=>{
+        const isOpen = card.classList.contains('open');
+        setOpen(!isOpen);
+    });
+
+    // close when user clicks outside the card on small screens
+    document.addEventListener('click', (e)=>{
+        if (!card.classList.contains('open') && !card.classList.contains('active')) return;
+        const withinCard = card.contains(e.target) || btn.contains(e.target);
+        if (!withinCard && window.matchMedia('(max-width:480px)').matches) setOpen(false);
+    });
+})();
+
     
     const startDate = new Date("2023-11-05T18:00:00");
 
