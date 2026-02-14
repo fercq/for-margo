@@ -96,6 +96,7 @@
         p { font-size: 1.05em; }
         /* show a compact button and hide card initially on very small screens */
         #showMessageBtn {
+            display: block;
             position: fixed;
             left: 50%;
             transform: translateX(-50%);
@@ -270,23 +271,28 @@
             setTimeout(()=> card.classList.add('active'), 200);
             btn.setAttribute('aria-expanded','true');
             btn.textContent = 'Close message';
-            // move focus to the card for accessibility
+            // move focus to the card for accessibility (try/catch for older Safari)
             card.setAttribute('tabindex','-1');
-            card.focus({preventScroll:true});
+            try { card.focus && card.focus(); } catch(e) {}
         } else {
             card.classList.remove('active');
             // wait for transition then remove open
             setTimeout(()=> card.classList.remove('open'), 220);
             btn.setAttribute('aria-expanded','false');
             btn.textContent = 'Open message';
-            btn.focus({preventScroll:true});
+            try { btn.focus && btn.focus(); } catch(e) {}
         }
     }
 
-    btn.addEventListener('click', ()=>{
+    function toggleHandler(e){
+        // prevent double events on touch-enabled devices
+        if(e) e.preventDefault && e.preventDefault();
         const isOpen = card.classList.contains('open');
         setOpen(!isOpen);
-    });
+    }
+
+    btn.addEventListener('click', toggleHandler);
+    btn.addEventListener('touchstart', toggleHandler, {passive:false});
 
     // close when user clicks outside the card on small screens
     document.addEventListener('click', (e)=>{
