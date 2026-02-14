@@ -110,25 +110,29 @@
         position: relative;
         z-index: 3; /* above photos and vignette */
         /* make card very transparent so background shows through */
-        background: rgba(0, 0, 0, 0.12);
-        padding: 20px;
-        border-radius: 14px;
-        backdrop-filter: blur(3px);
-        animation: fadeIn 2s ease-in-out;
-        max-width: 440px;
-        border: 1px solid rgba(255,255,255,0.04);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+        background: rgba(0, 0, 0, 0.08);
+        padding: 18px 20px;
+        border-radius: 12px;
+        backdrop-filter: blur(2px);
+        animation: fadeIn 1.6s ease-in-out;
+        max-width: 420px;
+        width: calc(min(90vw, 420px));
+        border: 1px solid rgba(255,255,255,0.035);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+        margin: 0 18px; /* breathing room on very small screens */
     }
 
     h1 {
-        font-size: 2.5em;
-        margin-bottom: 20px;
+        font-size: 1.9em;
+        margin-bottom: 12px;
         animation: pulse 2s infinite;
+        line-height: 1.1;
     }
 
     p {
-        font-size: 1.2em;
-        line-height: 1.6;
+        font-size: 1rem;
+        line-height: 1.45;
+        margin: 0 0 6px 0;
     }
 
     #counter {
@@ -173,6 +177,18 @@
     @media (hover: hover) and (min-width: 800px) {
         .bg-img.left:hover { transform: rotate(-3deg) translateY(-6px) scale(1.08); }
         .bg-img.right:hover { transform: rotate(3deg) translateY(6px) scale(1.08); }
+
+    /* Larger desktops: keep card modest so background shines */
+    @media (min-width: 1200px) {
+        .container { max-width: 520px; width: 520px; padding: 22px 28px; }
+        h1 { font-size: 2.1em; }
+    }
+
+    /* Tablet adjustments */
+    @media (min-width: 768px) and (max-width: 1199px) {
+        .container { max-width: 460px; width: 88vw; padding: 20px; }
+        h1 { font-size: 1.95em; }
+    }
     }
 </style>
 </head>
