@@ -150,7 +150,9 @@
     }
 
     /* hide mobile-only button on larger screens */
-    #showMessageBtn { display: none; }
+    @media (min-width: 481px) {
+        #showMessageBtn { display: none; }
+    }
 
     h1 {
         font-size: 1.9em;
