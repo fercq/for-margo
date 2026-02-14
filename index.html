@@ -71,6 +71,28 @@
         .bg .bg-img:nth-child(5), .bg .bg-img:nth-child(6), .bg .bg-img:nth-child(7), .bg .bg-img:nth-child(8) { display: none; }
     }
 
+    /* Small screens (phones) — make card smaller and more transparent; make images fully visible */
+    @media (max-width: 480px) {
+        .container {
+            max-width: 360px;
+            padding: 16px;
+            background: rgba(0,0,0,0.12);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+        }
+
+        /* show only first four images and make them crisper and fully opaque */
+        .bg-img { width: 46vw; height: 26vh; opacity: 1; filter: none; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+        .bg .bg-img:nth-child(1) { left: 2vw; top: 6vh; transform: rotate(-4deg) scale(1); }
+        .bg .bg-img:nth-child(2) { left: 52vw; top: 6vh; transform: rotate(2deg) scale(1); }
+        .bg .bg-img:nth-child(3) { left: 2vw; top: 44vh; transform: rotate(4deg) scale(1); }
+        .bg .bg-img:nth-child(4) { left: 52vw; top: 44vh; transform: rotate(-2deg) scale(1); }
+        .bg .bg-img:nth-child(5), .bg .bg-img:nth-child(6), .bg .bg-img:nth-child(7), .bg .bg-img:nth-child(8) { display: none; }
+
+        h1 { font-size: 1.6em; }
+        p { font-size: 1.05em; }
+    }
+
     /* subtle vignette to keep center readable */
     body::after {
         content: "";
